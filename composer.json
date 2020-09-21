@@ -1,0 +1,11 @@
+{
+    "name": "xray/registrar",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Laserroy",
+            "email": "deectro@gmail.com"
+        }
+    ],
+    "require": {}
+}
