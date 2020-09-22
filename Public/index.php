@@ -6,8 +6,6 @@ use Bramus\Router\Router;
 
 $router = new Router();
 
-$router->get('/', function() {
-    echo 'TEST';
-});
+$router->get('/', 'App\Controllers\HomeController@index');
 
 $router->run();
