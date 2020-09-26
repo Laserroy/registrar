@@ -30,52 +30,95 @@
               </div>
             <div class="form-group">
               <label for="exampleFormControlInput1">Email address</label>
-              <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+              <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" required>
             </div>
 
             <div class="form-group">
               <label for="regionSelect">Region select</label>
-              <select class="form-control" id="regionSelect">
+              <select class="form-control" id="regionSelect" required>
+                <option  selected></option>
               </select>
             </div>
             <div class="form-group">
-                <label for="citySelect">City select</label>
-                <select class="form-control" id="citySelect">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="districtSelect">District select</label>
-                <select class="form-control" id="districtSelect">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                </select>
-              </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+              <label for="citySelect">City select</label>
+              <select class="form-control" id="citySelect" required>
+                <option  selected></option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="districtSelect">District select</label>
+              <select class="form-control" id="districtSelect" required>
+                <option  selected></option>
+              </select>
+            </div>
+            <button type="submit" id="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
 
     <script type="text/javascript">
-        $(document).ready(function () {
-          $.ajax({
-            url: '/regions',
-            type: 'GET',
-            success: function (data) {
-              $.each(JSON.parse(data), function (index, region) {
-                $('#regionSelect').append($('<option></option>').text(region));
+          $(document).ready(function () {
+              $('#citySelect').toggle();
+              $('#districtSelect').toggle();
+              
+              $.ajax({
+                url: '/regions',
+                type: 'GET',
+                success: function (data) {
+                  $.each(JSON.parse(data), function (index, region) {
+                    [regId, regName] = region;
+      
+                    $('#regionSelect').append($('<option></option>').attr("value", regId).text(regName));
+                  });
+                  $("#regionSelect").chosen({width:"100%", disable_search: true, include_group_label_in_selected: true});
+                }
               });
-              $("#regionSelect").chosen({width:"100%"});
-            }
+
+              $('#regionSelect').on('change', function(evt, params) {
+                regionID = params.selected;
+                $('#citySelect').toggle();
+                $.ajax({
+                url: `/cities/${regionID}`,
+                type: 'GET',
+                success: function (jsonData) {
+                  let cities = JSON.parse(jsonData);
+                  if (cities.length !== 0) {
+                    $.each(cities, function (index, city) {
+                      [cityId, cityName] = city;
+                      $('#citySelect').append($('<option></option>').attr("value", cityId).text(cityName));
+                    });
+                  } else {
+                    let regionOption = $('#regionSelect > option:selected').clone();
+                    $('#citySelect').append($(regionOption));
+                    
+                  }
+                    
+                  $("#citySelect").chosen({width:"100%", disable_search: true});
+                }
+                });
+
+              });
+
+              $('#citySelect').on('change', function(evt, params) {
+                cityID = params.selected;
+                $('#citySelect_chosen').show();
+                $.ajax({
+                url: `/districts/${cityID}`,
+                type: 'GET',
+                success: function (data) {
+                  
+                  $.each(JSON.parse(data), function (index, district) {
+                    [districtId, districtName] = district;
+                    
+                    $('#districtSelect').append($('<option></option>').attr("value", districtId).text(districtName));
+                    
+                  });
+                  $("#districtSelect").chosen({width:"100%", disable_search: true});
+                }
+                });
+
+              });
+
           });
-        });
-        $("#citySelect").chosen({width:"100%"});
-        $("#districtSelect").chosen({width:"100%"});
+  
     </script>
 </body>
