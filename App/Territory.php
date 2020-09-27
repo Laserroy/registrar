@@ -34,7 +34,7 @@ class Territory
     public function getDistricts($cityID)
     {
         $conn = DbConnection::make();
-        $sql = "SELECT ter_id, ter_name FROM t_koatuu_tree WHERE ter_type_id >= 2 AND ter_pid = $cityID";
+        $sql = "SELECT ter_id, ter_name FROM t_koatuu_tree WHERE ter_type_id = 3 AND ter_pid = $cityID";
         $stmt = $conn->query($sql);
         $result = $stmt->fetchAll(\PDO::FETCH_NUM);
         $json = json_encode($result);

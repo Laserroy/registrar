@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use App\DbConnection;
-
 class HomeController
 {
     public function index()

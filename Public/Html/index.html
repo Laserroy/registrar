@@ -11,114 +11,40 @@
 </head>
 <body>
     <div class="container-sm">
-        <h1 class="text-center">User registration:</h1>
+        <hr/>
+        <h1 class="text-center">Регистрация пользователя:</h1>
         <hr/>
         <form>
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label for="inputName">Name</label>
-                  <input type="text" class="form-control" id="inputName" required>
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="inputLastName">Last name</label>
-                  <input type="text" class="form-control" id="inputLastName" required>
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="inputPatronymic">Patronymic</label>
-                    <input type="text" class="form-control" id="inputPatronymic" required>
-                  </div>
-              </div>
             <div class="form-group">
-              <label for="exampleFormControlInput1">Email address</label>
+                <label for="inputName">ФИО</label>
+                <input type="text" class="form-control" id="inputName" required>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Почтовый адрес</label>
               <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" required>
             </div>
 
             <div class="form-group">
-              <label for="regionSelect">Region select</label>
+              
               <select class="form-control" id="regionSelect" required>
-                <option  selected></option>
+                <option  selected>Выберите область</option>
               </select>
             </div>
             <div class="form-group">
-              <label for="citySelect">City select</label>
+              
               <select class="form-control" id="citySelect" required>
-                <option  selected></option>
+                <option  selected>Выберите город</option>
               </select>
             </div>
             <div class="form-group">
-              <label for="districtSelect">District select</label>
+              
               <select class="form-control" id="districtSelect" required>
-                <option  selected></option>
+                <option  selected>Выберите район</option>
               </select>
             </div>
-            <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" id="submit" class="btn btn-primary float-right">Добавить</button>
         </form>
     </div>
 
-    <script type="text/javascript">
-          $(document).ready(function () {
-              $('#citySelect').toggle();
-              $('#districtSelect').toggle();
-              
-              $.ajax({
-                url: '/regions',
-                type: 'GET',
-                success: function (data) {
-                  $.each(JSON.parse(data), function (index, region) {
-                    [regId, regName] = region;
-      
-                    $('#regionSelect').append($('<option></option>').attr("value", regId).text(regName));
-                  });
-                  $("#regionSelect").chosen({width:"100%", disable_search: true, include_group_label_in_selected: true});
-                }
-              });
-
-              $('#regionSelect').on('change', function(evt, params) {
-                regionID = params.selected;
-                $('#citySelect').toggle();
-                $.ajax({
-                url: `/cities/${regionID}`,
-                type: 'GET',
-                success: function (jsonData) {
-                  let cities = JSON.parse(jsonData);
-                  if (cities.length !== 0) {
-                    $.each(cities, function (index, city) {
-                      [cityId, cityName] = city;
-                      $('#citySelect').append($('<option></option>').attr("value", cityId).text(cityName));
-                    });
-                  } else {
-                    let regionOption = $('#regionSelect > option:selected').clone();
-                    $('#citySelect').append($(regionOption));
-                    
-                  }
-                    
-                  $("#citySelect").chosen({width:"100%", disable_search: true});
-                }
-                });
-
-              });
-
-              $('#citySelect').on('change', function(evt, params) {
-                cityID = params.selected;
-                $('#citySelect_chosen').show();
-                $.ajax({
-                url: `/districts/${cityID}`,
-                type: 'GET',
-                success: function (data) {
-                  
-                  $.each(JSON.parse(data), function (index, district) {
-                    [districtId, districtName] = district;
-                    
-                    $('#districtSelect').append($('<option></option>').attr("value", districtId).text(districtName));
-                    
-                  });
-                  $("#districtSelect").chosen({width:"100%", disable_search: true});
-                }
-                });
-
-              });
-
-          });
-  
-    </script>
+<script src="/Js/formActions.js" type="text/javascript"></script>
 </body>
