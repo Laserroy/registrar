@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <head>
     <link rel="icon" href="data:,">
     <link href="/css/component-chosen.css" rel="stylesheet">

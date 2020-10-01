@@ -5,9 +5,11 @@ namespace App;
 use Dotenv\Dotenv;
 use PDO;
 
-class DbConnection
+class DB
 {
-    public static function make()
+    public $connection;
+    
+    public function __construct()
     {
         if (file_exists(__DIR__ . '/../.env')) {
             $dotenv = Dotenv::createUnsafeImmutable(__DIR__ . '/..');
@@ -28,6 +30,11 @@ class DbConnection
         } catch (\PDOException $e) {
             echo "Connection failed: " . $e->getMessage();
         }
-        return $connection;
+        $this->connection = $connection;
+    }
+
+    public function __destruct()
+    {
+        $this->connection = null;
     }
 }
