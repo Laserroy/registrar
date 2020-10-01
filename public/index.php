@@ -11,8 +11,8 @@ $router->post('/users', 'App\Controllers\UserController@store');
 
 // ajax
 
-$router->get('/regions', 'App\Models\Territory@getRegions');
-$router->get('/cities/{regionID}', 'App\Models\Territory@getCities');
-$router->get('/districts/{cityID}', 'App\Models\Territory@getDistricts');
+$router->get('/api/regions', 'App\Controllers\TerritoryApiController@regions');
+$router->get('/api/cities/{regionID}', 'App\Controllers\TerritoryApiController@cities');
+$router->get('/api/districts/{cityID}', 'App\Controllers\TerritoryApiController@districts');
 
 $router->run();

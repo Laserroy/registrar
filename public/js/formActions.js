@@ -6,7 +6,7 @@ $(document).ready(function () {
     $('#districtSelect_chosen').hide();
       
     $.ajax({
-        url: '/regions',
+        url: '/api/regions',
         type: 'GET',
         success: function (data) {
             $.each(JSON.parse(data), function (index, region) {
@@ -20,7 +20,7 @@ $(document).ready(function () {
     $('#regionSelect').on('change', function(evt, params) {
         regionID = params.selected;
         $.ajax({
-            url: `/cities/${regionID}`,
+            url: `/api/cities/${regionID}`,
             type: 'GET',
             success: function (jsonData) {
                 let cities = JSON.parse(jsonData);
@@ -44,7 +44,7 @@ $(document).ready(function () {
         cityID = params.selected;
         $('#districtSelect').children().not(':first').remove();
         $.ajax({
-            url: `/districts/${cityID}`,
+            url: `/api/districts/${cityID}`,
             type: 'GET',
             success: function (jsonData) {
                 let districts = JSON.parse(jsonData);
