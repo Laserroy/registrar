@@ -16,13 +16,11 @@ class UserController
 
         $newUser = new User($userName, $userEmail, $territoryID);
 
-        if (!$newUser->create()) {
-            $this->show($newUser->getID());
+        if (!$newUser->exists()) {
+            $newUser->create();
+            echo json_encode('');
+        } else {
+            echo json_encode((new User())->find($newUser->getID()));
         }
-    }
-
-    public function show($userID)
-    {
-        echo $userID;
     }
 }

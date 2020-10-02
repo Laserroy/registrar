@@ -7,6 +7,7 @@ use Bramus\Router\Router;
 $router = new Router();
 
 $router->get('/', 'App\Controllers\HomeController@index');
+$router->get('/users/{userID}', 'App\Controllers\UserController@show');
 $router->post('/users', 'App\Controllers\UserController@store');
 
 // ajax
