@@ -88,12 +88,12 @@ $(document).ready(function () {
             city: "Укажите город",
             district: "Укажите район"
         },
-        submitHandler: function(form) {
+        submitHandler: function (form) {
             $.ajax({
                 url: '/users',
                 type: 'post',
                 data: $(form).serialize(),
-                success: function(data) {
+                success: function (data) {
                     let user = JSON.parse(data);
                     $('.modal-body').empty();
                     if (user.length === 0) {

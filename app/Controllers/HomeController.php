@@ -2,12 +2,10 @@
 
 namespace App\Controllers;
 
-use App\View;
-
 class HomeController
 {
     public function index()
     {
-        View::render('app.php');
+        echo file_get_contents(__DIR__ . '/../../public/html/index.html');
     }
 }

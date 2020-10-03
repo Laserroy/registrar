@@ -14,13 +14,13 @@ class UserController
         $userName = htmlspecialchars($_POST['fullName']);
         $userEmail = htmlspecialchars($_POST['email']);
 
-        $newUser = new User($userName, $userEmail, $territoryID);
+        $newUser = new User();
 
-        if (!$newUser->exists()) {
-            $newUser->create();
+        if (!$newUser->isExists($userEmail)) {
+            $newUser->save($userName, $userEmail, $territoryID);
             echo json_encode('');
         } else {
-            echo json_encode((new User())->find($newUser->getID()));
+            echo json_encode($newUser->find($userEmail));
         }
     }
 }

@@ -12,41 +12,33 @@ class User
     protected $email;
     protected $terID;
 
-    public function __construct($userName = null, $userEmail = null, $territoryID = null)
+    public function __construct()
     {
         $this->db = new DB();
-        $this->name = $userName;
-        $this->email = $userEmail;
-        $this->terID = $territoryID;
     }
 
-    public function getID()
+    public function isExists($email)
     {
-        $sql = "SELECT id FROM users WHERE email = '$this->email'";
+        $sql = "SELECT id FROM users WHERE email = '$email'";
         $stmt = $this->db->connection->query($sql);
         $user = $stmt->fetch(PDO::FETCH_OBJ);
-        return $user->id;
+        return empty($user) ? false : true;
     }
 
-    public function exists()
-    {
-        return empty($this->getID()) ? false : true;
-    }
-
-    public function create()
+    public function save($name, $email, $terID)
     {
         $insertSql = "INSERT INTO users (name, email, territory)
-                        VALUES ('$this->name',
-                                '$this->email',
-                                (SELECT ter_id FROM t_koatuu_tree WHERE ter_id = $this->terID))";
+                        VALUES ('$name',
+                                '$email',
+                                (SELECT ter_id FROM t_koatuu_tree WHERE ter_id = $terID))";
         $status = $this->db->connection->exec($insertSql);
 
         return $status;
     }
 
-    public function find($userID)
+    public function find($email)
     {
-        $sql = "SELECT * FROM users JOIN t_koatuu_tree ON ter_id = users.territory WHERE id = '$userID'";
+        $sql = "SELECT * FROM users JOIN t_koatuu_tree ON ter_id = users.territory WHERE email = '$email'";
         $stmt = $this->db->connection->query($sql);
         $user = $stmt->fetch(PDO::FETCH_OBJ);
         return $user;
