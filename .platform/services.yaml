@@ -1,4 +1,7 @@
 db:
     type: mysql:10.4
     disk: 256
-    
+    configuration:
+        properties:
+            default_charset: utf8mb4
+            default_collation: utf8mb4_unicode_ci
