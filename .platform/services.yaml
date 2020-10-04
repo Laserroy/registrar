@@ -4,4 +4,4 @@ db:
     configuration:
         properties:
             default_charset: utf8mb4
-            default_collation: utf8mb4_unicode_ci
+            default_collation: utf8mb4_ai_ci
