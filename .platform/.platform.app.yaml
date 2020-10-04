@@ -1,0 +1,34 @@
+# .platform.app.yaml
+
+# The name of this application, which must be unique within a project.
+name: 'registrar'
+
+# The type key specifies the language and version for your application.
+type: 'php:7.4'
+
+# On PHP, there are multiple build flavors available. Pretty much everyone
+# except Drupal 7 users will want the composer flavor.
+build:
+    flavor: composer
+
+# The relationships of the application with services or other applications.
+# The left-hand side is the name of the relationship as it will be exposed
+# to the application in the PLATFORM_RELATIONSHIPS variable. The right-hand
+# side is in the form `<service name>:<endpoint name>`.
+relationships:
+    database: 'mysqldb:mysql'
+
+# The size of the persistent disk of the application (in MB).
+disk: 2048
+
+# The configuration of the application when it is exposed to the web.
+web:
+    locations:
+        '/':
+            # The public directory of the application relative to its root.
+            root: 'public'
+            # The front-controller script which determines where to send
+            # non-static requests.
+            passthru: '/index.php'
+        # Allow uploaded files to be served, but do not run scripts.
+        # Missing files get mapped to the front controller above.
